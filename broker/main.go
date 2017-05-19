@@ -23,7 +23,7 @@ func main() {
 		for {
 			select {
 			case <-ticker.C:
-				fmt.Println("Random Generator")
+				fmt.Println("Broker")
 			}
 		}
 	}()

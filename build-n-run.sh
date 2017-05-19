@@ -5,7 +5,14 @@ if [[ $(docker images --filter "reference=golang-compiler"  --quiet | wc -l | tr
   ./infra/docker/golang-compiler/build.sh
 fi
 
-# Build image with binary
+# Build broker image with binary
+docker run --rm -t \
+           -v "$PWD/broker:/go/src/broker:ro"\
+           -v "$PWD/dist:/go/dist:rw" \
+           golang-compiler \
+           bash -c "cd /go/src/broker && go build -o /go/dist/broker main.go"
+
+# Build randgen image with binary
 docker run --rm -t \
            -v "$PWD/randgen:/go/src/randgen:ro"\
            -v "$PWD/dist:/go/dist:rw" \
@@ -13,7 +20,8 @@ docker run --rm -t \
            bash -c "cd /go/src/randgen && go build -o /go/dist/randgen main.go"
 
 # Package the binary / also handled by docker-compose
-# ./infra/docker/randgen-prod/build.sh
+# ./infra/docker/broker/build.sh
+# ./infra/docker/randgen/build.sh
 
 docker-compose up --build
 docker-compose down

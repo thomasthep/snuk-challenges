@@ -1,9 +1,14 @@
 version: '3'
 
 services:
+  broker:
+    image: broker
+    build:
+      dockerfile: "./infra/docker/broker/Dockerfile"
+      context: "./"
+
   randgen:
     image: randgen
     build:
-      dockerfile: "./infra/docker/randgen-prod/Dockerfile"
+      dockerfile: "./infra/docker/randgen/Dockerfile"
       context: "./"
-    
