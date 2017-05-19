@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  randgen:
+    image: randgen
+    build:
+      dockerfile: "./infra/docker/randgen-prod/Dockerfile"
+      context: "./"
+    

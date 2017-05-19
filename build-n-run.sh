@@ -12,5 +12,8 @@ docker run --rm -t \
            golang-compiler \
            bash -c "cd /go/src/randgen && go build -o /go/dist/randgen main.go"
 
-# Package the binary
-./infra/docker/randgen-prod/build.sh
+# Package the binary / also handled by docker-compose
+# ./infra/docker/randgen-prod/build.sh
+
+docker-compose up --build
+docker-compose down
