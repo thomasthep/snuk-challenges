@@ -6,13 +6,6 @@ if [[ $(docker images --filter "reference=golang-compiler"  --quiet | wc -l | tr
   ./infra/docker/golang-compiler/build.sh
 fi
 
-# Build broker binary
-docker run --rm -t \
-           -v "$PWD/broker:/go/src/github.com/thomasthep/snuk-challenges/broker:rw"\
-           -v "$PWD/dist:/go/dist:rw" \
-           golang-compiler \
-           bash -c "cd /go/src/github.com/thomasthep/snuk-challenges/broker && glide install && go build -o /go/dist/broker main.go"
-
 # Build collector binary
 docker run --rm -t \
            -v "$PWD/collector:/go/src/github.com/thomasthep/snuk-challenges/collector:rw"\
@@ -28,7 +21,7 @@ docker run --rm -t \
            bash -c "cd /go/src/github.com/thomasthep/snuk-challenges/randgen && glide install && go build -o /go/dist/randgen main.go"
 
 # Package the binary / also handled by docker-compose
-# ./infra/docker/broker/build.sh
+# ./infra/docker/collector/build.sh
 # ./infra/docker/randgen/build.sh
 
 docker-compose up --build

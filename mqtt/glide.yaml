@@ -1,4 +1,4 @@
 package: github.com/thomasthep/snuk-challenges/mqtt
 import:
-- package: github.com/robfig/cron
+- package: github.com/eclipse/paho.mqtt.golang
   version: ~1.0.0

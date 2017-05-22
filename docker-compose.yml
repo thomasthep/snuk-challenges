@@ -1,16 +1,8 @@
 version: '3'
 
 services:
-  broker:
-    image: broker
-    build:
-      dockerfile: "./infra/docker/broker/Dockerfile"
-      context: "./"
-
   mosquitto:
     image: toke/mosquitto
-    ports:
-      - 1883
 
   collector:
     image: collector

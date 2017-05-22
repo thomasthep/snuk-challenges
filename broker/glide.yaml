@@ -1,4 +1,0 @@
-package: github.com/thomasthep/snuk-challenges/broker
-import:
-- package: github.com/eclipse/paho.mqtt.golang
-  version: ~1.0.0

@@ -1,18 +1,10 @@
-hash: c721b69383b5fab1f45a4df7458294f96ef77fbbc80c3f3f7f618eaf57cee4e0
-updated: 2017-05-22T10:31:23.333499608+02:00
+hash: fa1fedc17af056bf25458cdd06238a07a8a632447dffd66bc9e511b3f4df35c9
+updated: 2017-05-22T10:36:28.633389029+02:00
 imports:
-- name: github.com/eclipse/paho.mqtt.golang
-  version: 45f9b18f4864c81d49c3ed01e5faec9eeb05de31
-  subpackages:
-  - packets
 - name: github.com/robfig/cron
   version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: github.com/thomasthep/snuk-challenges
-  version: 989021b767afd647cfbeb6e03cc62d7c9a6c82e9
+  version: a175527839e8d72701d16bf5528e7e63be4d40bf
   subpackages:
   - mqtt
-- name: golang.org/x/net
-  version: 513929065c19401a1c7b76ecd942f9f86a0c061b
-  subpackages:
-  - websocket
 testImports: []

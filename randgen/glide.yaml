@@ -2,8 +2,6 @@ package: github.com/thomasthep/snuk-challenges/randgen
 import:
 - package: github.com/robfig/cron
   version: ~1.0.0
-- package: github.com/eclipse/paho.mqtt.golang
-  version: ~1.0.0
 - package: github.com/thomasthep/snuk-challenges
   subpackages:
   - mqtt

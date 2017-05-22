@@ -1,16 +1,8 @@
-hash: 44cf3d438d6e2228e50ceefb03d89c7db58827af634c1532247458078b2c42f5
-updated: 2017-05-22T10:31:49.324159239+02:00
+hash: 6922f9289939532c31156292a25921c2d3e6b6cfe6cf02889da7e3beda1617cc
+updated: 2017-05-22T10:36:06.080049321+02:00
 imports:
-- name: github.com/eclipse/paho.mqtt.golang
-  version: 45f9b18f4864c81d49c3ed01e5faec9eeb05de31
-  subpackages:
-  - packets
 - name: github.com/thomasthep/snuk-challenges
-  version: 989021b767afd647cfbeb6e03cc62d7c9a6c82e9
+  version: a175527839e8d72701d16bf5528e7e63be4d40bf
   subpackages:
   - mqtt
-- name: golang.org/x/net
-  version: 513929065c19401a1c7b76ecd942f9f86a0c061b
-  subpackages:
-  - websocket
 testImports: []
