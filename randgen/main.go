@@ -10,13 +10,15 @@ import (
 )
 
 func main() {
+	fmt.Println("Random Generator")
+
 	r1 := rand.New(rand.NewSource(time.Now().Unix()))
 
 	sigs := make(chan os.Signal, 1)
 
 	c := cron.New()
 	c.AddFunc("* * * * * *", func() {
-		fmt.Printf("Random Generator: %d\n", r1.Intn(10000-1)+1)
+		fmt.Printf("-> %d\n", r1.Intn(10000-1)+1)
 	})
 	c.Start()
 	defer c.Stop()

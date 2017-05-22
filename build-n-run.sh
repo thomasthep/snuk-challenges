@@ -5,14 +5,21 @@ if [[ $(docker images --filter "reference=golang-compiler"  --quiet | wc -l | tr
   ./infra/docker/golang-compiler/build.sh
 fi
 
-# Build broker image with binary
+# Build broker binary
 docker run --rm -t \
            -v "$PWD/broker:/go/src/broker:rw"\
            -v "$PWD/dist:/go/dist:rw" \
            golang-compiler \
            bash -c "cd /go/src/broker && glide install && go build -o /go/dist/broker main.go"
 
-# Build randgen image with binary
+# Build collector binary
+docker run --rm -t \
+           -v "$PWD/collector:/go/src/collector:rw"\
+           -v "$PWD/dist:/go/dist:rw" \
+           golang-compiler \
+           bash -c "cd /go/src/collector && glide install && go build -o /go/dist/collector main.go"
+
+# Build randgen binary
 docker run --rm -t \
            -v "$PWD/randgen:/go/src/randgen:rw"\
            -v "$PWD/dist:/go/dist:rw" \

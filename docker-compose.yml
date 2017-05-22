@@ -7,6 +7,12 @@ services:
       dockerfile: "./infra/docker/broker/Dockerfile"
       context: "./"
 
+  collector:
+    image: collector
+    build:
+      dockerfile: "./infra/docker/collector/Dockerfile"
+      context: "./"
+
   randgen:
     image: randgen
     build:
