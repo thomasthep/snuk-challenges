@@ -4,8 +4,14 @@ services:
   mosquitto:
     image: toke/mosquitto
   # External use or debug
-  # ports:
-  #   - "1883:1883"
+    ports:
+      - "1883:1883"
+    restart:
+      always
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
   collector:
     image: collector
@@ -16,6 +22,12 @@ services:
       - "3000:3000"
     depends_on:
       - "mosquitto"
+    restart:
+      always
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
   randgen:
     image: randgen
@@ -24,3 +36,12 @@ services:
       context: "./"
     depends_on:
       - "mosquitto"
+    restart:
+      always
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure

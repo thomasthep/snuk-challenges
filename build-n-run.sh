@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
+trap ctrl_c INT
+function ctrl_c() {
+  echo "*** Cancel ***"
+  docker-compose down
+}
+
 # cut required due to OSX's output of wc with prepended tab
 if [[ $(docker images --filter "reference=golang-compiler"  --quiet | wc -l | tr -d ' ') -eq 0 ]]; then
   ./infra/docker/golang-compiler/build.sh
@@ -24,5 +30,6 @@ docker run --rm -t \
 # ./infra/docker/collector/build.sh
 # ./infra/docker/randgen/build.sh
 
-docker-compose up --build
-docker-compose down
+docker-compose up -d --build
+docker-compose scale randgen=2
+docker-compose logs -f
