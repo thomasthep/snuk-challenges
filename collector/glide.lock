@@ -1,14 +1,28 @@
-hash: b28af056bf104585b6d2fc717ddedafb43a1afbddb51bc97587b35734c310014
-updated: 2017-05-22T10:52:54.807056368+02:00
+hash: 35fbdacd3c1719c8cdb8defc1de80b073faaf32bdcd432929b7ca098970d7146
+updated: 2017-05-22T15:03:52.663950773+02:00
 imports:
+- name: github.com/buaazp/fasthttprouter
+  version: ade4e2031af3aed7fffd241084aad80a58faf421
 - name: github.com/eclipse/paho.mqtt.golang
   version: 45f9b18f4864c81d49c3ed01e5faec9eeb05de31
   subpackages:
   - packets
+- name: github.com/klauspost/compress
+  version: e80ca55b53e5e6f53deed5c7842e7b7da95e1dc7
+  subpackages:
+  - flate
+  - gzip
+  - zlib
+- name: github.com/klauspost/cpuid
+  version: 09cded8978dc9e80714c4d85b0322337b0a1e5e0
 - name: github.com/thomasthep/snuk-challenges
   version: 8cc616b9de712fa4716dc17c5431c705a934154d
   subpackages:
   - mqtt
+- name: github.com/valyala/fasthttp
+  version: d42167fd04f636e20b005e9934159e95454233c7
+  subpackages:
+  - fasthttputil
 - name: golang.org/x/net
   version: 513929065c19401a1c7b76ecd942f9f86a0c061b
   subpackages:

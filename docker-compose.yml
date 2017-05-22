@@ -3,12 +3,17 @@ version: '3'
 services:
   mosquitto:
     image: toke/mosquitto
+  # External use or debug
+  # ports:
+  #   - "1883:1883"
 
   collector:
     image: collector
     build:
       dockerfile: "./infra/docker/collector/Dockerfile"
       context: "./"
+    ports:
+      - "3000:3000"
     depends_on:
       - "mosquitto"
 

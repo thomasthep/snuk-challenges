@@ -4,3 +4,9 @@ import:
   version: 0.0.1-alpha
   subpackages:
   - mqtt
+- package: github.com/buaazp/fasthttprouter
+  version: ~0.1.1
+- package: github.com/valyala/fasthttp
+  version: ~20160617.0.0
+- package: github.com/eclipse/paho.mqtt.golang
+  version: ~1.0.0

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strconv"
 	"time"
 
-	"github.com/robfig/cron"
 	"github.com/thomasthep/snuk-challenges/mqtt"
 )
 
@@ -20,14 +20,20 @@ func main() {
 	mqtt.Connect()
 	defer mqtt.Disconnect()
 
-	c := cron.New()
-	c.AddFunc("* * * * * *", func() {
-		randomValue := r1.Intn(10000-1) + 1
-		fmt.Printf("-> %d\n", randomValue)
-		mqtt.Publish("random", randomValue)
-	})
-	c.Start()
-	defer c.Stop()
+	ticker := time.NewTicker(100 * time.Millisecond)
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				randomValue := r1.Intn(10000-1) + 1
+				// fmt.Printf("-> %d\n", randomValue)
+				mqtt.Publish("random", strconv.Itoa(randomValue))
+			}
+		}
+	}()
+
+	defer ticker.Stop()
 
 	fmt.Println("started")
 
