@@ -1,5 +1,6 @@
 package: github.com/thomasthep/snuk-challenges/collector
 import:
 - package: github.com/thomasthep/snuk-challenges
+  version: 0.0.1-alpha
   subpackages:
   - mqtt
