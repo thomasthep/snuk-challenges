@@ -1,4 +1,7 @@
-package: .
+package: github.com/thomasthep/snuk-challenges/collector
 import:
 - package: github.com/eclipse/paho.mqtt.golang
   version: ~1.0.0
+- package: github.com/thomasthep/snuk-challenges
+  subpackages:
+  - mqtt

@@ -14,7 +14,7 @@ func main() {
 
 	mqtt.DEBUG = log.New(os.Stdout, "", 0)
 	mqtt.ERROR = log.New(os.Stdout, "", 0)
-	opts := mqtt.NewClientOptions().AddBroker("tcp://iot.eclipse.org:1883").SetClientID("gotrivial")
+	opts := mqtt.NewClientOptions().AddBroker("tcp://mosquitto:1883").SetClientID("gotrivial")
 	opts.SetKeepAlive(2 * time.Second)
 	opts.SetPingTimeout(1 * time.Second)
 	c := mqtt.NewClient(opts)

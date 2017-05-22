@@ -7,14 +7,23 @@ services:
       dockerfile: "./infra/docker/broker/Dockerfile"
       context: "./"
 
+  mosquitto:
+    image: toke/mosquitto
+    ports:
+      - 1883
+
   collector:
     image: collector
     build:
       dockerfile: "./infra/docker/collector/Dockerfile"
       context: "./"
+    depends_on:
+      - "mosquitto"
 
   randgen:
     image: randgen
     build:
       dockerfile: "./infra/docker/randgen/Dockerfile"
       context: "./"
+    depends_on:
+      - "mosquitto"

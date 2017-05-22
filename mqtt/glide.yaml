@@ -1,0 +1,4 @@
+package: github.com/thomasthep/snuk-challenges/mqtt
+import:
+- package: github.com/robfig/cron
+  version: ~1.0.0

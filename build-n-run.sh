@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # cut required due to OSX's output of wc with prepended tab
 if [[ $(docker images --filter "reference=golang-compiler"  --quiet | wc -l | tr -d ' ') -eq 0 ]]; then
@@ -7,24 +8,24 @@ fi
 
 # Build broker binary
 docker run --rm -t \
-           -v "$PWD/broker:/go/src/broker:rw"\
+           -v "$PWD/broker:/go/src/github.com/thomasthep/snuk-challenges/broker:rw"\
            -v "$PWD/dist:/go/dist:rw" \
            golang-compiler \
-           bash -c "cd /go/src/broker && glide install && go build -o /go/dist/broker main.go"
+           bash -c "cd /go/src/github.com/thomasthep/snuk-challenges/broker && glide install && go build -o /go/dist/broker main.go"
 
 # Build collector binary
 docker run --rm -t \
-           -v "$PWD/collector:/go/src/collector:rw"\
+           -v "$PWD/collector:/go/src/github.com/thomasthep/snuk-challenges/collector:rw"\
            -v "$PWD/dist:/go/dist:rw" \
            golang-compiler \
-           bash -c "cd /go/src/collector && glide install && go build -o /go/dist/collector main.go"
+           bash -c "cd /go/src/github.com/thomasthep/snuk-challenges/collector && glide install && go build -o /go/dist/collector main.go"
 
 # Build randgen binary
 docker run --rm -t \
-           -v "$PWD/randgen:/go/src/randgen:rw"\
+           -v "$PWD/randgen:/go/src/github.com/thomasthep/snuk-challenges/randgen:rw"\
            -v "$PWD/dist:/go/dist:rw" \
            golang-compiler \
-           bash -c "cd /go/src/randgen && glide install && go build -o /go/dist/randgen main.go"
+           bash -c "cd /go/src/github.com/thomasthep/snuk-challenges/randgen && glide install && go build -o /go/dist/randgen main.go"
 
 # Package the binary / also handled by docker-compose
 # ./infra/docker/broker/build.sh

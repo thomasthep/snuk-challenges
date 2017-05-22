@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/robfig/cron"
+	"github.com/thomasthep/snuk-challenges/mqtt"
 )
 
 func main() {
@@ -16,9 +17,14 @@ func main() {
 
 	sigs := make(chan os.Signal, 1)
 
+	mqtt.Connect()
+	defer mqtt.Disconnect()
+
 	c := cron.New()
 	c.AddFunc("* * * * * *", func() {
-		fmt.Printf("-> %d\n", r1.Intn(10000-1)+1)
+		randomValue := r1.Intn(10000-1) + 1
+		fmt.Printf("-> %d\n", randomValue)
+		mqtt.Publish("random", randomValue)
 	})
 	c.Start()
 	defer c.Stop()
