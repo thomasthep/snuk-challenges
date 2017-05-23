@@ -1,70 +1,71 @@
 package mqtt
 
 import (
-	"fmt"
 	"log"
-	"os"
 	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-var (
-	client mqtt.Client
-
-	handler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
-		fmt.Printf("TOPIC: %s\n", msg.Topic())
-		fmt.Printf("MSG: %s\n", msg.Payload())
+type (
+	Mqtt interface {
+		Connect()
+		Disconnect()
+		Subscribe(string)
+		SubscribeHandler(string, mqtt.MessageHandler)
+		Unsubscribe(string)
+		Publish(string, interface{})
+	}
+	MqttClient struct {
+		Client   mqtt.Client
+		Server   string
+		Port     int
+		Hostname string
+		Options  MqttOptions
+		Logger   MqttLogger
+	}
+	MqttOptions struct {
+		KeepAlive   time.Duration
+		PingTimeout time.Duration
+		Handler     mqtt.MessageHandler
+	}
+	MqttLogger struct {
+		Debug    *log.Logger
+		Critical *log.Logger
+		Error    *log.Logger
 	}
 )
 
-func init() {
-	if false {
-		mqtt.DEBUG = log.New(os.Stdout, "", 0)
-	}
-	mqtt.CRITICAL = log.New(os.Stdout, "", 0)
-	mqtt.ERROR = log.New(os.Stdout, "", 0)
-
-	id, _ := os.Hostname()
-
-	opts := mqtt.NewClientOptions().AddBroker("tcp://mosquitto:1883").SetClientID(id)
-	opts.SetKeepAlive(2 * time.Second)
-	opts.SetPingTimeout(1 * time.Second)
-	opts.SetDefaultPublishHandler(handler)
-
-	client = mqtt.NewClient(opts)
-}
-
-func Connect() {
-	if token := client.Connect(); token.Wait() && token.Error() != nil {
+func (m *MqttClient) Connect() {
+	if token := m.Client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func Disconnect() {
-	client.Disconnect(250)
+func (m *MqttClient) Disconnect() {
+	m.Client.Disconnect(250)
 }
 
-func Subscribe(topic string) {
-	if token := client.Subscribe(topic, 0, nil); token.Wait() && token.Error() != nil {
+func (m *MqttClient) Subscribe(topic string) {
+	if token := m.Client.Subscribe(topic, 0, nil); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func SubscribeHandler(topic string, handler mqtt.MessageHandler) {
-	if token := client.Subscribe(topic, 0, handler); token.Wait() && token.Error() != nil {
+func (m *MqttClient) SubscribeHandler(topic string, handler mqtt.MessageHandler) {
+	if token := m.Client.Subscribe(topic, 0, handler); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func Unsubscribe(topic string) {
-	if token := client.Unsubscribe(topic); token.Wait() && token.Error() != nil {
+func (m *MqttClient) Unsubscribe(topic string) {
+	if token := m.Client.Unsubscribe(topic); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func Publish(topic string, payload interface{}) {
-	if token := client.Publish(topic, 0, false, payload); token.Wait() && token.Error() != nil {
+func (m *MqttClient) Publish(topic string, payload interface{}) {
+	if token := m.Client.Publish(topic, 0, false, payload); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
