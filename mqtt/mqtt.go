@@ -4,67 +4,69 @@ import (
 	"log"
 	"time"
 
-	mqtt "github.com/eclipse/paho.mqtt.golang"
+	pahoMqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
 type (
-	Mqtt interface {
+	ClientInterface interface {
 		Connect()
 		Disconnect()
 		Subscribe(string)
-		SubscribeHandler(string, mqtt.MessageHandler)
+		SubscribeHandler(string, pahoMqtt.MessageHandler)
 		Unsubscribe(string)
 		Publish(string, interface{})
 	}
-	MqttClient struct {
-		Client   mqtt.Client
+	Client struct {
+		Client   pahoMqtt.Client
+	}
+	Config struct {
 		Server   string
 		Port     int
 		Hostname string
-		Options  MqttOptions
-		Logger   MqttLogger
+		Options  Options
+		Logger   Logger
 	}
-	MqttOptions struct {
+	Options struct {
 		KeepAlive   time.Duration
 		PingTimeout time.Duration
-		Handler     mqtt.MessageHandler
+		Handler     pahoMqtt.MessageHandler
 	}
-	MqttLogger struct {
+	Logger struct {
 		Debug    *log.Logger
 		Critical *log.Logger
 		Error    *log.Logger
 	}
 )
 
-func (m *MqttClient) Connect() {
+func (m *Client) Connect() {
 	if token := m.Client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func (m *MqttClient) Disconnect() {
+func (m *Client) Disconnect() {
 	m.Client.Disconnect(250)
 }
 
-func (m *MqttClient) Subscribe(topic string) {
+func (m *Client) Subscribe(topic string) {
 	if token := m.Client.Subscribe(topic, 0, nil); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func (m *MqttClient) SubscribeHandler(topic string, handler mqtt.MessageHandler) {
+func (m *Client) SubscribeHandler(topic string, handler pahoMqtt.MessageHandler) {
 	if token := m.Client.Subscribe(topic, 0, handler); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func (m *MqttClient) Unsubscribe(topic string) {
+func (m *Client) Unsubscribe(topic string) {
 	if token := m.Client.Unsubscribe(topic); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}
 }
 
-func (m *MqttClient) Publish(topic string, payload interface{}) {
+func (m *Client) Publish(topic string, payload interface{}) {
 	if token := m.Client.Publish(topic, 0, false, payload); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	}

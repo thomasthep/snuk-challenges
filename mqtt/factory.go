@@ -3,36 +3,36 @@ package mqtt
 import (
 	"fmt"
 
-	"github.com/eclipse/paho.mqtt.golang"
+	pahoMqtt "github.com/eclipse/paho.mqtt.golang"
 )
 
-type MqttClientFactory func(mqttClient *MqttClient) (*MqttClient, error)
+type Factory func(config *Config) (*Client, error)
 
-func NewMqttClient(mqttClient *MqttClient) (*MqttClient, error) {
-	if nil != mqttClient.Logger.Debug {
-		mqtt.DEBUG = mqttClient.Logger.Debug
+func NewClient(config *Config) (*Client, error) {
+	if nil != config.Logger.Debug {
+		pahoMqtt.DEBUG = config.Logger.Debug
 	}
-	if nil != mqttClient.Logger.Critical {
-		mqtt.CRITICAL = mqttClient.Logger.Critical
+	if nil != config.Logger.Critical {
+		pahoMqtt.CRITICAL = config.Logger.Critical
 	}
-	if nil != mqttClient.Logger.Error {
-		mqtt.ERROR = mqttClient.Logger.Error
+	if nil != config.Logger.Error {
+		pahoMqtt.ERROR = config.Logger.Error
 	}
 
 	ServerPort := 1883
-	if 0 != mqttClient.Port {
-		ServerPort = mqttClient.Port
+	if 0 != config.Port {
+		ServerPort = config.Port
 	}
-	ServerAddress := fmt.Sprintf("tcp://%s:%d", mqttClient.Server, ServerPort)
+	ServerAddress := fmt.Sprintf("tcp://%s:%d", config.Server, ServerPort)
 
-	opts := mqtt.NewClientOptions()
+	opts := pahoMqtt.NewClientOptions()
 	opts.AddBroker(ServerAddress)
-	opts.SetClientID(mqttClient.Hostname)
-	opts.SetKeepAlive(mqttClient.Options.KeepAlive)
-	opts.SetPingTimeout(mqttClient.Options.PingTimeout)
-	opts.SetDefaultPublishHandler(mqttClient.Options.Handler)
+	opts.SetClientID(config.Hostname)
+	opts.SetKeepAlive(config.Options.KeepAlive)
+	opts.SetPingTimeout(config.Options.PingTimeout)
+	opts.SetDefaultPublishHandler(config.Options.Handler)
 
-	return &MqttClient{
-		Client: mqtt.NewClient(opts),
+	return &Client{
+		Client: pahoMqtt.NewClient(opts),
 	}, nil
 }

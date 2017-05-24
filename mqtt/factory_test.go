@@ -16,31 +16,31 @@ func TestNewMqttClient(t *testing.T) {
 		fmt.Printf("MSG: %s\n", msg.Payload())
 	}
 
-	mqttLogger := MqttLogger{
+	logger := Logger{
 		Debug: log.New(os.Stdout, "DEBUG: ", 0),
 		Critical: log.New(os.Stdout, "CRITICAL: ", 0),
 		Error: log.New(os.Stdout, "ERROR: ", 0),
 	}
 
-	mqttOptions := MqttOptions{
+	options := Options{
 		KeepAlive: 2 * time.Second,
 		PingTimeout: 1 * time.Second,
 		Handler: handler,
 	}
 
-	mqttClient, err := NewMqttClient(&MqttClient{
+	client, err := NewMqttClient(&Config{
 		Hostname: "myLocal",
 		Server: "localhost",
 		Port: 1883,
-		Options: mqttOptions,
-		Logger: mqttLogger,
+		Options: options,
+		Logger: logger,
 	})
 
 	if nil != err {
 		t.Error(err.Error())
 	}
 
-	if nil == mqttClient {
+	if nil == client {
 		t.Errorf("Expected MQTTClient, got: nil")
 	}
 }
